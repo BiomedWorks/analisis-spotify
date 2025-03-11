@@ -28,7 +28,8 @@ client_id = "bb0a0e09d6c94aa7b737367978a6d801"
 client_secret = "551eb9f17e9e4a9fa27458063b98e515"
 
 # Autenticación con Client Credentials Flow
-sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=client_id, client_secret=client_secret))
+sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=client_id, client_secret=client_secret), 
+                     requests_timeout=20)  # Aumentar el timeout a 20 segundos
 
 def encontrarID(artista):
     resultados = sp.search(q=artista, limit=1, type='artist')
@@ -58,9 +59,15 @@ def obtenerData(artista_id): # 'album', 'single', 'appears_on', 'compilation'
 
     return pd.DataFrame(canciones_data, columns=['Álbum', 'Tipo', 'Año', 'Canción', 'Artistas', 'Duración', 'Popularidad'])
 
-tu_artista = 'Juanes'
+tu_artista = 'imagine dragons'
 id_artista = encontrarID(tu_artista)
 print(f'ID de {tu_artista}: {id_artista}')
 
 df = obtenerData(id_artista)
 print(df)
+
+
+df_canciones = df.copy()
+df_canciones['Duración_seg'] = df_canciones['Duración'].apply(lambda x: int(x.split(':')[0]) * 60 + int(x.split(':')[1]))
+df_canciones.head()
+
