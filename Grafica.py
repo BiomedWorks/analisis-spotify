@@ -8,7 +8,7 @@ import plotly.graph_objects as go
 import plotly.figure_factory as ff
 
 # Seleccionamos las canciones más populares (Top 15)
-canciones_populares = df_canciones.sort_values(by=['Popularidad'], ascending=False).head(15)
+canciones_populares = df_canciones.sort_values(by=['Popularidad'], ascending=False).head(5)
 
 # Creamos una columna 'Canción_única' con la combinación de nombre de la canción y el álbum
 canciones_populares['Canción_única'] = canciones_populares['Canción'] + '<br>' + canciones_populares['Álbum']
